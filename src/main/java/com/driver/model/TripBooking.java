@@ -1,44 +1,41 @@
 package com.driver.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
-@Table
 public class TripBooking {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private int tripBookingId;
 
     private String fromLocation;
+
     private String toLocation;
+
     private int distanceInKm;
-    private TripStatus tripStatus;
+
+    public TripStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(TripStatus status) {
+        this.status = status;
+    }
+
+    @Enumerated(value = EnumType.STRING)
+    private TripStatus status;
+
     private int bill;
 
-    @ManyToOne
-    @JoinColumn
-    private Customer customer;
-
-    @ManyToOne
-    @JoinColumn
-    private Driver driver;
-
-    public TripBooking(String fromLocation, String toLocation, int distanceInKm) {
-        this.fromLocation = fromLocation;
-        this.toLocation = toLocation;
-        this.distanceInKm = distanceInKm;
+    public int getTripBookingId() {
+        return tripBookingId;
     }
 
-    public TripBooking() {
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+    public void setTripBookingId(int tripBookingId) {
+        this.tripBookingId = tripBookingId;
     }
 
     public String getFromLocation() {
@@ -65,13 +62,8 @@ public class TripBooking {
         this.distanceInKm = distanceInKm;
     }
 
-    public TripStatus getTripStatus() {
-        return tripStatus;
-    }
 
-    public void setTripStatus(TripStatus tripStatus) {
-        this.tripStatus = tripStatus;
-    }
+
 
     public int getBill() {
         return bill;
@@ -81,13 +73,26 @@ public class TripBooking {
         this.bill = bill;
     }
 
-    public Customer getCustomer() {
-        return customer;
+    public TripBooking() {
     }
 
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
+    public TripBooking(int tripBookingId, String fromLocation, String toLocation, int distanceInKm, TripStatus status, int bill) {
+        this.tripBookingId = tripBookingId;
+        this.fromLocation = fromLocation;
+        this.toLocation = toLocation;
+        this.distanceInKm = distanceInKm;
+        this.status = status;
+        this.bill = bill;
     }
+    @ManyToOne
+    @JoinColumn
+    @JsonIgnore
+    private Driver driver;
+
+    @ManyToOne
+    @JoinColumn
+    @JsonIgnore
+    private Customer customer;
 
     public Driver getDriver() {
         return driver;
@@ -95,5 +100,13 @@ public class TripBooking {
 
     public void setDriver(Driver driver) {
         this.driver = driver;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 }

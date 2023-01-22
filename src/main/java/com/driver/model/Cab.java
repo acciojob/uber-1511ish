@@ -1,24 +1,19 @@
 package com.driver.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
-@Table
 public class Cab {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private int ratePerKm;
+    private int perKmRate;
+
     private boolean available;
-
-    public Cab(int ratePerKm, boolean available) {
-        this.ratePerKm = ratePerKm;
-        this.available = available;
-    }
-
-    public Cab() {
-    }
 
     public int getId() {
         return id;
@@ -28,19 +23,33 @@ public class Cab {
         this.id = id;
     }
 
-    public int getRatePerKm() {
-        return ratePerKm;
+    public int getPerKmRate() {
+        return perKmRate;
     }
 
-    public void setRatePerKm(int ratePerKm) {
-        this.ratePerKm = ratePerKm;
+    public void setPerKmRate(int perKmRate) {
+        this.perKmRate = perKmRate;
     }
 
     public boolean isAvailable() {
         return available;
     }
+    public boolean getAvailable() {
+        return available;
+    }
 
+
+    public boolean getavailable(){return this.available;}
     public void setAvailable(boolean available) {
+        this.available = available;
+    }
+
+    public Cab() {
+    }
+
+    public Cab(int id, int perKmRate, boolean available) {
+        this.id = id;
+        this.perKmRate = perKmRate;
         this.available = available;
     }
 
@@ -54,5 +63,6 @@ public class Cab {
 
     @OneToOne
     @JoinColumn
+    @JsonIgnore
     private Driver driver;
 }

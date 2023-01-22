@@ -1,35 +1,29 @@
 package com.driver.model;
 
 import javax.persistence.*;
+import java.sql.Array;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table
 public class Driver {
+    public int getDriverId() {
+        return driverId;
+    }
+
+    public void setDriverId(int driverId) {
+        this.driverId = driverId;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private int driverId;
 
     private String mobile;
+
     private String password;
 
-    public Driver(String mobile, String password) {
-        this.mobile = mobile;
-        this.password = password;
-    }
 
-    public Driver() {
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getMobile() {
         return mobile;
@@ -47,13 +41,17 @@ public class Driver {
         this.password = password;
     }
 
-    public List<TripBooking> getTripBookingList() {
-        return tripBookingList;
+    public Driver() {
     }
 
-    public void setTripBookingList(List<TripBooking> tripBookingList) {
-        this.tripBookingList = tripBookingList;
+    public Driver(int driverId, String mobile, String password) {
+        this.driverId = driverId;
+        this.mobile = mobile;
+        this.password = password;
     }
+
+    @OneToOne(mappedBy = "driver",cascade = CascadeType.ALL)
+    private Cab cab;
 
     public Cab getCab() {
         return cab;
@@ -63,10 +61,15 @@ public class Driver {
         this.cab = cab;
     }
 
-    //bcs it is paretn class
-    @OneToMany(mappedBy = "driver",cascade = CascadeType.ALL)
-    List<TripBooking> tripBookingList = new ArrayList<>();
+    public List<TripBooking> getTripbookingList() {
+        return tripbookingList;
+    }
 
-   @OneToOne(mappedBy = "driver",cascade = CascadeType.ALL)
-    private Cab cab;
+    public void setTripbookingList(List<TripBooking> tripbookingList) {
+        this.tripbookingList = tripbookingList;
+    }
+
+    @OneToMany(mappedBy = "driver",cascade = CascadeType.ALL)
+
+    private List<TripBooking> tripbookingList=new ArrayList<>();
 }

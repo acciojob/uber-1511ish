@@ -1,38 +1,28 @@
+
 package com.driver.model;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table
 public class Customer {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private int customerId;
 
     private String mobile;
+
     private String password;
 
-    public Customer(String mobile, String password) {
-        this.mobile = mobile;
-        this.password = password;
+    public int getCustomerId() {
+        return customerId;
     }
 
-    public Customer() {
-    }
-
-    //bcs it is parent of tripbooking
-    @OneToMany(mappedBy = "customer",cascade = CascadeType.ALL)
-    List<TripBooking> tripBookingList = new ArrayList<>();
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+    public void setCustomerId(int customerId) {
+        this.customerId = customerId;
     }
 
     public String getMobile() {
@@ -50,6 +40,18 @@ public class Customer {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public Customer() {
+    }
+
+    public Customer(int customerId, String mobile, String password) {
+        this.customerId = customerId;
+        this.mobile = mobile;
+        this.password = password;
+    }
+
+    @OneToMany(mappedBy = "customer",cascade = CascadeType.ALL)
+    private List<TripBooking> tripBookingList=new ArrayList<>();
 
     public List<TripBooking> getTripBookingList() {
         return tripBookingList;
