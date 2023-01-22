@@ -13,6 +13,10 @@ import com.driver.repository.AdminRepository;
 import com.driver.repository.CustomerRepository;
 import com.driver.repository.DriverRepository;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+
 @Service
 public class AdminServiceImpl implements AdminService {
 
@@ -38,25 +42,28 @@ public class AdminServiceImpl implements AdminService {
 		admin.setPassword(password);
 		adminRepository1.save(admin);
 		return admin;
+
 	}
 
 	@Override
 	public void deleteAdmin(int adminId){
 		// Delete admin without using deleteById function
-        Admin admin = adminRepository1.findById(adminId).get();
-		adminRepository1.delete(admin);
+		adminRepository1.delete(adminRepository1.findById(adminId).get());
+
 	}
 
 	@Override
 	public List<Driver> getListOfDrivers() {
 		//Find the list of all drivers
-        return driverRepository1.findAll();
+		return driverRepository1.findAll();
+
 	}
 
 	@Override
 	public List<Customer> getListOfCustomers() {
 		//Find the list of all customers
-       return customerRepository1.findAll();
+		return customerRepository1.findAll();
+
 	}
 
 }
